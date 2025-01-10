@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import logger from "@/utils/logger";
 
 const AuthModal = ({ isOpen, onClose, type = "login" }) => {
   const { login, register } = useAuth();
@@ -16,7 +17,6 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
     fullName: "",
     email: "",
     password: "",
-    // rememberMe: false,
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,29 +25,81 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
     setModalType(type);
   }, [type]);
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setError("");
+  //   setLoading(true);
+  //   console.log("formData for login:::", formData);
+
+  //   try {
+  //     let result;
+  //     if (modalType === "login") {
+  //       result = await login(formData.email, formData.password);
+  //     } else {
+  //       result = await register(formData);
+  //     }
+
+  //     if (result.success) {
+  //       onClose();
+  //     } else {
+  //       setError(result.error);
+  //     }
+  //   } catch (err) {
+  //     setError("An unexpected error occurred");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    logger.debug("Form submission initiated", {
+      modalType,
+      email: formData.email,
+      hasPassword: !!formData.password,
+      hasFullName: !!formData.fullName,
+    });
+
     setError("");
     setLoading(true);
-    console.log("formData for login:::", formData);
 
     try {
       let result;
       if (modalType === "login") {
+        logger.debug("Attempting login with email:", formData.email);
         result = await login(formData.email, formData.password);
       } else {
+        logger.debug("Attempting registration with data:", {
+          fullName: formData.fullName,
+          email: formData.email,
+        });
+        console.log("first registration", formData);
         result = await register(formData);
       }
 
+      logger.debug("Auth result:", result);
+
       if (result.success) {
+        logger.info(
+          `${
+            modalType.charAt(0).toUpperCase() + modalType.slice(1)
+          } successful`,
+          result.data
+        );
         onClose();
       } else {
-        setError(result.error);
+        logger.warn(
+          `${modalType.charAt(0).toUpperCase() + modalType.slice(1)} failed`,
+          result.error
+        );
+        setError(result.error || "Operation failed. Please try again.");
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      logger.error("Unexpected error during submission:", err);
+      setError("User not found. Please try again.");
     } finally {
       setLoading(false);
+      logger.debug("Form submission completed for:", modalType);
     }
   };
 
@@ -58,7 +110,6 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
       fullName: "",
       email: "",
       password: "",
-      rememberMe: false,
     });
     setError("");
   };
@@ -154,10 +205,6 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
               <div className='flex items-center space-x-2'>
                 <Checkbox
                   id='remember'
-                  checked={formData.rememberMe}
-                  onCheckedChange={(checked) =>
-                    setFormData({ ...formData, rememberMe: checked })
-                  }
                   className='w-5 h-5 mr-2 border-[#E16F3D] placeholder-[#E16F3D]'
                 />
                 <label
@@ -179,15 +226,16 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
           </div>
 
           <Button
+            onClick={handleSubmit}
             type='submit'
             disabled={loading}
             className='w-full h-[53px] bg-[#FF6A1A]  hover:bg-[#FF6A1A]/90 text-white font-semibold'
           >
             {loading
-              ? "Loading..."
+              ? "Processing..."
               : modalType === "login"
               ? "Login"
-              : "Sign up"}
+              : "Register"}
           </Button>
 
           <div className='relative my-6'>

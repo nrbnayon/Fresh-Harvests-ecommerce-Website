@@ -1,12 +1,12 @@
+//api/register/route.js
 import { setCookie } from "@/lib/cookies";
 import { NextResponse } from "next/server";
 export async function POST(request) {
   const apiUrl = process.env.API_URL;
+
   try {
     const newData = await request.json();
-
-    // Make a POST request to the external API
-    const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
+    const response = await fetch(`${apiUrl}/api/v1/users/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,11 +15,10 @@ export async function POST(request) {
     });
 
     const data = await response.json();
+    console.log("Response from external API:", data);
 
-    // Extract accessToken and userData from the response
     const { accessToken, userData } = data?.data || {};
 
-    // Prepare the response with JSON payload
     const responseWithCookie = NextResponse.json({
       success: data?.success,
       message: data?.message,

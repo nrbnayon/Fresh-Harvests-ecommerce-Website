@@ -35,12 +35,19 @@ export default function Header() {
           <div className='flex items-center justify-between'>
             {/* Logo section */}
             <Link href='/' className='flex items-center space-x-2'>
-              <Image src={Logo} alt='Fresh Harvests' width={40} height={40} />
+              <Image
+                src={Logo}
+                alt='Fresh Harvests'
+                width={40}
+                height={40}
+                priority
+              />
               <Image
                 src={LogoText}
                 alt='Fresh Harvests'
                 width={174.78}
                 height={17.88}
+                priority
               />
             </Link>
 
