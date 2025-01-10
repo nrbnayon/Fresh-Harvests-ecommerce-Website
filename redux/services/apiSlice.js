@@ -1,0 +1,24 @@
+//redux/services/apiSlice.js
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const apiSlice = createApi({
+  reducerPath: "apiSlice",
+  baseQuery: fetchBaseQuery({
+    baseUrl: BaseURL,
+    credentials: "include",
+    prepareHeaders: (headers) => {
+      // Get token from cookies
+      const token = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("accessToken="))
+        ?.split("=")[1];
+
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
+  tagTypes: ["Auth"],
+  endpoints: (builder) => ({}),
+});
