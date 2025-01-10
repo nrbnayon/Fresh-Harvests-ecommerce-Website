@@ -96,7 +96,7 @@ export default function Header() {
             </nav>
 
             {/* Actions section */}
-            {/* <div className='flex items-center justify-between space-x-4'>
+            <div className='flex items-center justify-between space-x-4'>
               <Link
                 href='/favorites'
                 className='hidden md:flex text-[#749B3F] border-white fill-[#749B3F] hover:text-primaryColor items-center space-x-2'
@@ -109,7 +109,7 @@ export default function Header() {
 
               <Link
                 href='/cart'
-                className='relative text-white fill-[#749B3F] hover:hover:text-primaryColor flex items-center space-x-2'
+                className='relative text-primaryColor fill-[#749B3F] hover:text-[#749B3F] flex items-center space-x-2'
               >
                 {cartCount > 0 && (
                   <div className='absolute flex items-center justify-center right-[-8px] md:left-[50%] top-[-8px] transform md:-translate-x-1/2 w-[20px] h-[20px] bg-[#EE4536] border-2 border-[#EDEDED] rounded-full'>
@@ -117,7 +117,7 @@ export default function Header() {
                   </div>
                 )}
                 <FaShoppingCart className='w-6 h-6 fill-current' />
-                <span className='text-[14px] hidden md:flex leading-[24px]  tracking-[-0.02em] text-white'>
+                <span className='text-[14px] hidden md:flex leading-[24px]  tracking-[-0.02em] text-textPrimaryColor'>
                   Cart
                 </span>
               </Link>
@@ -130,7 +130,7 @@ export default function Header() {
                     onClick={handleLoginClick}
                     className='hidden md:flex items-center px-[24px] py-[12px] h-[41px] border border-gray-300 hover:border-black rounded-[4px] hover:bg-gray-50'
                   >
-                    <span className='font-rubik font-semibold text-white'>
+                    <span className='font-rubik font-semibold text-textPrimaryColor'>
                       Sign in
                     </span>
                   </button>
@@ -142,14 +142,14 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
-                  <X className='h-6 w-6 text-[#749B3F]' />
+                  <X className='h-6 w-6 text-[#749B3F] bg-white' />
                 ) : (
-                  <Menu className='h-6 w-6 text-[#749B3F]' />
+                  <Menu className='h-6 w-6 text-[#749B3F]  bg-white' />
                 )}
               </button>
-            </div> */}
+            </div>
 
-            <div className='flex items-center justify-between space-x-4'>
+            {/* <div className='flex items-center justify-between space-x-4'>
               <Link
                 href='/favorites'
                 className='hidden md:flex text-white border-white fill-[#749B3F] hover:text-primaryColor items-center space-x-2'
@@ -175,7 +175,7 @@ export default function Header() {
                 </span>
               </Link>
 
-              {/* User Menu or Sign In */}
+             
               {user ? (
                 <UserMenu />
               ) : (
@@ -191,7 +191,7 @@ export default function Header() {
                 </div>
               )}
 
-              {/* Mobile Menu Button */}
+              
               <button
                 className='md:hidden'
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -202,7 +202,7 @@ export default function Header() {
                   <Menu className='h-6 w-6 text-white' />
                 )}
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Mobile Menu */}

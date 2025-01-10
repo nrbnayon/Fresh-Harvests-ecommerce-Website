@@ -5,6 +5,10 @@ import { ProductCard } from "../ProductCard";
 import { useDynamicTypesQuery } from "@/redux/features/auth/dynamicType/dynamicTypeApiSlice";
 import { getCartCount } from "@/utils/cartUtils";
 import { FilterButton } from "../FilterButton";
+import l1 from "../../assets/l1.svg";
+import l2 from "../../assets/l4.svg";
+
+import Image from "next/image";
 
 export default function OurProduct() {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -62,7 +66,7 @@ export default function OurProduct() {
 
   return (
     <div className='min-h-screen container mx-auto bg-white py-16'>
-      <div className='max-w-[1200px] mx-auto sm:px-6'>
+      <div className='relative max-w-[1200px] mx-auto sm:px-6'>
         {/* Header with Cart Count */}
         <div className='text-center mb-8 relative space-y-4'>
           <div className='inline-block bg-[#749B3F19] rounded-md'>
@@ -117,12 +121,18 @@ export default function OurProduct() {
                 setShowAll(!showAll);
                 setActiveFilter("all");
               }}
-              className='px-8 py-3 border-2 border-primaryColor text-primaryColor rounded-md hover:bg-primaryColor hover:text-white transition-colors'
+              className='px-8 py-4 border-2 border-primaryColor text-primaryColor rounded-md hover:bg-primaryColor hover:text-white transition-colors'
             >
               {showAll ? "Show Less" : "See All Products"}
             </button>
           </div>
         )}
+        <div className='block absolute top-8 right-[78px]'>
+          <Image src={l1} alt='bg' width={67} height={61} />
+        </div>
+        <div className='block absolute top-16 left-[78px]'>
+          <Image src={l2} alt='bg' width={67} height={61} />
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ import arrow2 from "../../assets/arro2.svg";
 import l1 from "../../assets/l1.svg";
 import l2 from "../../assets/l2.svg";
 import l3 from "../../assets/l3.svg";
-import l4 from "../../assets/l1.svg";
+// import l4 from "../../assets/l1.svg";
 
 export default function Hero() {
   return (
