@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import logger from "@/utils/logger";
+import toast from "react-hot-toast";
 
 const AuthModal = ({ isOpen, onClose, type = "login" }) => {
   const { login, register } = useAuth();
@@ -17,48 +18,78 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
     fullName: "",
     email: "",
     password: "",
+    userName: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [touchedFields, setTouchedFields] = useState({
+    // fullName: false,
+    email: false,
+    // password: false,
+  });
+  const [formErrors, setFormErrors] = useState({
+    fullName: "",
+    email: "",
+    password: "",
+    // checkbox: "",
+  });
 
   useEffect(() => {
     setModalType(type);
   }, [type]);
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setError("");
-  //   setLoading(true);
-  //   console.log("formData for login:::", formData);
+  const validateForm = () => {
+    const errors = {
+      fullName: "",
+      email: "",
+      // password: "",
+      // checkbox: "",
+    };
+    let isValid = true;
 
-  //   try {
-  //     let result;
-  //     if (modalType === "login") {
-  //       result = await login(formData.email, formData.password);
-  //     } else {
-  //       result = await register(formData);
-  //     }
+    if (modalType === "register" && !formData.fullName.trim()) {
+      errors.fullName = "Full name is required";
+      isValid = false;
+    }
 
-  //     if (result.success) {
-  //       onClose();
-  //     } else {
-  //       setError(result.error);
-  //     }
-  //   } catch (err) {
-  //     setError("An unexpected error occurred");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+    if (!formData.email.trim()) {
+      errors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      errors.password = "Password is required";
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      errors.password = "Password must be at least 6 characters";
+      isValid = false;
+    }
+
+    if (modalType === "login" && !rememberMe) {
+      errors.checkbox = "Please accept the remember me checkbox";
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
+  const handleBlur = (field) => {
+    setTouchedFields((prev) => ({ ...prev, [field]: true }));
+    validateForm();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    logger.debug("Form submission initiated", {
-      modalType,
-      email: formData.email,
-      hasPassword: !!formData.password,
-      hasFullName: !!formData.fullName,
-    });
+
+    if (!validateForm()) {
+      toast.error("Please fill in all required fields correctly");
+      return;
+    }
 
     setError("");
     setLoading(true);
@@ -73,7 +104,6 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
           fullName: formData.fullName,
           email: formData.email,
         });
-        console.log("first registration", formData);
         result = await register(formData);
       }
 
@@ -86,17 +116,30 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
           } successful`,
           result.data
         );
-        onClose();
+
+        if (modalType === "register") {
+          toast.success("Registration successful! Please log in.");
+          setModalType("login");
+        } else {
+          toast.success(
+            `${
+              modalType.charAt(0).toUpperCase() + modalType.slice(1)
+            } successful!`
+          );
+          onClose();
+        }
       } else {
         logger.warn(
           `${modalType.charAt(0).toUpperCase() + modalType.slice(1)} failed`,
           result.error
         );
         setError(result.error || "Operation failed. Please try again.");
+        toast.error(result.error || "Operation failed. Please try again.");
       }
     } catch (err) {
       logger.error("Unexpected error during submission:", err);
-      setError("User not found. Please try again.");
+      setError("An unexpected error occurred.");
+      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
       logger.debug("Form submission completed for:", modalType);
@@ -112,9 +155,31 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
       password: "",
     });
     setError("");
+    setFormErrors({
+      fullName: "",
+      email: "",
+      password: "",
+      // checkbox: "",
+    });
+    setTouchedFields({
+      fullName: false,
+      email: false,
+      password: false,
+    });
   };
 
   if (!isOpen) return null;
+
+  const isFormValid =
+    modalType === "login"
+      ? formData.email && formData.password
+      : // &&
+        // rememberMe &&
+        // !Object.values(formErrors).some((error) => error)
+        formData.fullName && formData.email;
+  // &&
+  //   formData.password &&
+  //   !Object.values(formErrors).some((error) => error);
 
   return (
     <div className='fixed inset-0 bg-black/50 flex items-center justify-center z-50 font-rubik'>
@@ -145,13 +210,27 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
               <input
                 type='text'
                 placeholder='Enter your name'
-                className='w-full p-2 border rounded-lg'
+                className={`w-full p-2 border rounded-lg ${
+                  formErrors.fullName && touchedFields.fullName
+                    ? "border-red-500"
+                    : ""
+                }`}
                 value={formData.fullName}
                 onChange={(e) =>
-                  setFormData({ ...formData, fullName: e.target.value })
+                  setFormData({
+                    ...formData,
+                    fullName: e.target.value,
+                    userName: e.target.value,
+                  })
                 }
+                onBlur={() => handleBlur("fullName")}
                 required
               />
+              {formErrors.fullName && touchedFields.fullName && (
+                <p className='text-red-500 text-sm mt-1'>
+                  {formErrors.fullName}
+                </p>
+              )}
             </div>
           )}
 
@@ -166,9 +245,17 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
                 onChange={(e) =>
                   setFormData({ ...formData, email: e.target.value })
                 }
+                onBlur={() => handleBlur("email")}
                 required
-                className='h-12'
+                className={`h-12 ${
+                  formErrors.email && touchedFields.email
+                    ? "border-red-500"
+                    : ""
+                }`}
               />
+              {formErrors.email && touchedFields.email && (
+                <p className='text-red-500 text-sm'>{formErrors.email}</p>
+              )}
             </div>
 
             <div className='space-y-2'>
@@ -182,8 +269,13 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
                   onChange={(e) =>
                     setFormData({ ...formData, password: e.target.value })
                   }
+                  onBlur={() => handleBlur("password")}
                   required
-                  className='h-12 pr-10'
+                  className={`h-12 pr-10 ${
+                    formErrors.password && touchedFields.password
+                      ? "border-red-500"
+                      : ""
+                  }`}
                 />
                 <button
                   type='button'
@@ -197,15 +289,22 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
                   )}
                 </button>
               </div>
+              {formErrors.password && touchedFields.password && (
+                <p className='text-red-500 text-sm'>{formErrors.password}</p>
+              )}
             </div>
           </div>
 
           <div className='flex items-center justify-between my-6'>
             {modalType === "login" && (
-              <div className='flex items-center space-x-2'>
+              <div className='flex items-center space-x-1'>
                 <Checkbox
                   id='remember'
-                  className='w-5 h-5 mr-2 border-[#E16F3D] placeholder-[#E16F3D]'
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked)}
+                  className={`w-5 h-5 mr-2 border-[#E16F3D] placeholder-[#E16F3D] ${
+                    formErrors.checkbox ? "border-red-500" : ""
+                  }`}
                 />
                 <label
                   htmlFor='remember'
@@ -224,12 +323,18 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
               </button>
             )}
           </div>
+          {formErrors.checkbox && modalType === "login" && (
+            <p className='text-red-500 text-sm -mt-4'>{formErrors.checkbox}</p>
+          )}
 
           <Button
-            onClick={handleSubmit}
             type='submit'
-            disabled={loading}
-            className='w-full h-[53px] bg-[#FF6A1A]  hover:bg-[#FF6A1A]/90 text-white font-semibold'
+            disabled={loading || !isFormValid}
+            className={`w-full h-[53px] ${
+              isFormValid
+                ? "bg-[#FF6A1A] hover:bg-[#FF6A1A]/90 text-white"
+                : "bg-[#FF6A1A] text-black cursor-not-allowed"
+            }  font-semibold`}
           >
             {loading
               ? "Processing..."

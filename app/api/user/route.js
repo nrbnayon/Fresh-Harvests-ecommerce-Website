@@ -5,7 +5,7 @@ export async function GET() {
   const cookieStore = await cookies();
   const apiUrl = process.env.API_URL;
   const accessToken = cookieStore.get("accessToken")?.value;
-  // console.log("cookies in api/me", accessToken);
+  console.log("user cookies:: ", accessToken);
 
   if (!accessToken) {
     return NextResponse.json(
@@ -17,12 +17,13 @@ export async function GET() {
   try {
     const apiResponse = await fetch(`${apiUrl}/api/v1/auth/profile`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `${accessToken}`,
         "Content-Type": "application/json",
       },
     });
 
     const data = await apiResponse.json();
+    console.log("data from api route in my profile...", data);
 
     if (!data.success) {
       return NextResponse.json(
@@ -31,11 +32,11 @@ export async function GET() {
       );
     }
 
-    const { result } = data?.data || {};
-    // console.log("data from api route in my profile...", result);
+    const result = data || {};
+    console.log("data from api route in my profile...", result);
     return NextResponse.json({
       success: true,
-      user: result?.data[0],
+      user: result,
     });
   } catch (error) {
     console.error("Get current user error:", error);

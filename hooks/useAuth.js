@@ -30,7 +30,7 @@ export const useAuth = () => {
         error:
           error.data?.message ||
           error.message ||
-          "An unexpected error occurred during login",
+          "Not found, please try again or register again",
       };
     }
   };
@@ -84,6 +84,8 @@ export const useAuth = () => {
       };
     }
   };
+
+  // const profile = async();
 
   return { login, register, logout };
 };
