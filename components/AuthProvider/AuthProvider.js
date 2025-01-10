@@ -1,7 +1,6 @@
 "use client";
 
 import { useLoggedInUserQuery } from "@/redux/features/auth/authApiSlice";
-
 import { setLoading } from "@/redux/features/auth/authSlice";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -23,8 +22,6 @@ export function AuthProvider({ children }) {
 
     initAuth();
   }, [refetch, dispatch]);
-
-
 
   return children;
 }

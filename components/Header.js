@@ -13,8 +13,10 @@ import LogoText from "../assets/logo2.svg";
 export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authType, setAuthType] = useState("login");
-  const { user, cartCount } = useAuth();
+  // const { user, cartCount } = useAuth();
   const [activeLink, setActiveLink] = useState("/");
+  let cartCount = 0;
+  let user = null;
 
   const handleLoginClick = () => {
     setAuthType("login");
