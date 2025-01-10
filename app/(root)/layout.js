@@ -1,7 +1,7 @@
 export default function RootLayout({ children }) {
   return (
     <section>
-      <div className=''>{children}</div>
+      <div>{children}</div>
     </section>
   );
 }

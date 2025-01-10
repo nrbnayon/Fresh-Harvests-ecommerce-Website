@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Heart, ShoppingCart, Menu, X } from "lucide-react";
 import { FaShoppingCart } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-
+import { getCartCount } from "@/utils/cartUtils";
 import { useSelector } from "react-redux";
 import AuthModal from "./Auth/AuthModal";
 import UserMenu from "./Auth/UserMenu";
@@ -19,14 +19,25 @@ export default function Header() {
   const [authType, setAuthType] = useState("login");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
 
   const pathname = usePathname();
-
   const { user } = useSelector((state) => state.auth) || {};
-  let cartCount = 1;
 
   useEffect(() => {
     setMounted(true);
+    setCartCount(getCartCount());
+
+    // Add event listener for cart updates
+    window.addEventListener("cartUpdated", () => {
+      setCartCount(getCartCount());
+    });
+
+    return () => {
+      window.removeEventListener("cartUpdated", () => {
+        setCartCount(getCartCount());
+      });
+    };
   }, []);
 
   const handleLoginClick = () => {
@@ -85,10 +96,10 @@ export default function Header() {
             </nav>
 
             {/* Actions section */}
-            <div className='flex items-center justify-between space-x-4'>
+            {/* <div className='flex items-center justify-between space-x-4'>
               <Link
                 href='/favorites'
-                className='hidden md:flex text-[#749B3F] fill-[#749B3F] hover:text-gray-900 items-center space-x-2'
+                className='hidden md:flex text-[#749B3F] border-white fill-[#749B3F] hover:text-primaryColor items-center space-x-2'
               >
                 <Heart className='w-6 h-6 fill-current' />
                 <span className='text-[14px] leading-[24px] tracking-[-0.02em] text-[#212337]'>
@@ -98,7 +109,7 @@ export default function Header() {
 
               <Link
                 href='/cart'
-                className='relative text-[#749B3F] fill-[#749B3F] hover:text-gray-900 flex items-center space-x-2'
+                className='relative text-white fill-[#749B3F] hover:hover:text-primaryColor flex items-center space-x-2'
               >
                 {cartCount > 0 && (
                   <div className='absolute flex items-center justify-center right-[-8px] md:left-[50%] top-[-8px] transform md:-translate-x-1/2 w-[20px] h-[20px] bg-[#EE4536] border-2 border-[#EDEDED] rounded-full'>
@@ -106,7 +117,60 @@ export default function Header() {
                   </div>
                 )}
                 <FaShoppingCart className='w-6 h-6 fill-current' />
-                <span className='text-[14px] hidden md:flex leading-[24px] tracking-[-0.02em] text-[#212337]'>
+                <span className='text-[14px] hidden md:flex leading-[24px]  tracking-[-0.02em] text-white'>
+                  Cart
+                </span>
+              </Link>
+
+              {user ? (
+                <UserMenu />
+              ) : (
+                <div className='flex'>
+                  <button
+                    onClick={handleLoginClick}
+                    className='hidden md:flex items-center px-[24px] py-[12px] h-[41px] border border-gray-300 hover:border-black rounded-[4px] hover:bg-gray-50'
+                  >
+                    <span className='font-rubik font-semibold text-white'>
+                      Sign in
+                    </span>
+                  </button>
+                </div>
+              )}
+
+              <button
+                className='md:hidden'
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className='h-6 w-6 text-[#749B3F]' />
+                ) : (
+                  <Menu className='h-6 w-6 text-[#749B3F]' />
+                )}
+              </button>
+            </div> */}
+
+            <div className='flex items-center justify-between space-x-4'>
+              <Link
+                href='/favorites'
+                className='hidden md:flex text-white border-white fill-[#749B3F] hover:text-primaryColor items-center space-x-2'
+              >
+                <Heart className='w-6 h-6 fill-current' />
+                <span className='text-[14px] leading-[24px] tracking-[-0.02em] text-white'>
+                  Favorites
+                </span>
+              </Link>
+
+              <Link
+                href='/cart'
+                className='relative text-white fill-[#749B3F] hover:hover:text-primaryColor flex items-center space-x-2'
+              >
+                {cartCount > 0 && (
+                  <div className='absolute flex items-center justify-center right-[-8px] md:left-[50%] top-[-8px] transform md:-translate-x-1/2 w-[20px] h-[20px] bg-[#EE4536] border-2 border-[#EDEDED] rounded-full'>
+                    <span className='text-white text-xs'>{cartCount}</span>
+                  </div>
+                )}
+                <FaShoppingCart className='w-6 h-6 fill-current' />
+                <span className='text-[14px] hidden md:flex leading-[24px]  tracking-[-0.02em] text-white'>
                   Cart
                 </span>
               </Link>
@@ -120,7 +184,9 @@ export default function Header() {
                     onClick={handleLoginClick}
                     className='hidden md:flex items-center px-[24px] py-[12px] h-[41px] border border-gray-300 hover:border-black rounded-[4px] hover:bg-gray-50'
                   >
-                    <span className='font-rubik font-semibold'>Sign in</span>
+                    <span className='font-rubik font-semibold text-white'>
+                      Sign in
+                    </span>
                   </button>
                 </div>
               )}
@@ -131,9 +197,9 @@ export default function Header() {
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               >
                 {isMobileMenuOpen ? (
-                  <X className='h-6 w-6 text-[#749B3F]' />
+                  <X className='h-6 w-6 text-white' />
                 ) : (
-                  <Menu className='h-6 w-6 text-[#749B3F]' />
+                  <Menu className='h-6 w-6 text-white' />
                 )}
               </button>
             </div>
