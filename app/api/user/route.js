@@ -5,7 +5,7 @@ export async function GET() {
   const cookieStore = await cookies();
   const apiUrl = process.env.API_URL;
   const accessToken = cookieStore.get("accessToken")?.value;
-  console.log("user cookies:: ", accessToken);
+  // console.log("user cookies:: ", accessToken);
 
   if (!accessToken) {
     return NextResponse.json(
@@ -23,7 +23,7 @@ export async function GET() {
     });
 
     const data = await apiResponse.json();
-    console.log("data from api route in my profile...", data);
+    // console.log("data from api route in my profile...", data);
 
     if (!data.success) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function GET() {
     }
 
     const result = data || {};
-    console.log("data from api route in my profile...", result);
+    // console.log("data from api route in my profile...", result);
     return NextResponse.json({
       success: true,
       user: result,

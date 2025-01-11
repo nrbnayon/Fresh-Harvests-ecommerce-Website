@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 const onlyAuthNotExist = ["/sign-in", "/sign-up", "/forgot-password"];
-const privateRoutes = ["/blogs", "/settings", "/products"];
+const privateRoutes = ["/blog", "/settings", "/product", "/cart"];
 
 export async function middleware(request) {
   // const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export async function middleware(request) {
   const isAuthRestrictedRoute = onlyAuthNotExist.includes(pathname);
 
   if (isPrivateRoute && !accessToken) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();

@@ -8,11 +8,11 @@ export async function POST(request) {
 
   try {
     const requestData = await request.json();
-    logger.debug("Login request data received", requestData);
+    // logger.debug("Login request data received", requestData);
 
     // Ensure the URL has a protocol
     const apiEndpoint = new URL("/api/v1/auth/login", apiUrl).toString();
-    logger.info("Calling API endpoint", apiEndpoint);
+    // logger.info("Calling API endpoint", apiEndpoint);
 
     const apiResponse = await fetch(apiEndpoint, {
       method: "POST",
@@ -23,7 +23,7 @@ export async function POST(request) {
     });
 
     const responseData = await apiResponse.json();
-    logger.debug("API response received", responseData);
+    // logger.debug("API response received", responseData);
 
     if (!apiResponse.ok) {
       logger.warn("API responded with an error", {
@@ -51,20 +51,20 @@ export async function POST(request) {
 
     // Set cookies only if we have the required data
     if (token) {
-      logger.info("Setting access token cookie");
+      // logger.info("Setting access token cookie");
       setCookie(response, "accessToken", token);
     } else {
       logger.warn("Access token not found in response");
     }
 
     if (userData) {
-      logger.info("Setting user data cookie");
+      // logger.info("Setting user data cookie");
       setCookie(response, "user", JSON.stringify(userData));
     } else {
       logger.warn("User data not found in response");
     }
 
-    logger.info("Login process completed successfully");
+    // logger.info("Login process completed successfully");
     return response;
   } catch (error) {
     logger.error("Login error occurred", error);

@@ -5,6 +5,7 @@ export async function GET(request) {
   const apiUrl = process.env.API_URL;
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
+  // console.log("first request id::", id);
   try {
     const url = id
       ? `${apiUrl}/api/v1/products/${id}`
@@ -17,7 +18,7 @@ export async function GET(request) {
     }
 
     const data = await response.json();
-    console.log("product data", data);
+    // console.log("product data", data);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching categories:", error);

@@ -76,7 +76,7 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className='hidden md:flex items-center space-x-8'>
+            {/* <nav className='hidden md:flex items-center space-x-8'>
               {menuItems.map((link) => (
                 <Link
                   key={link.href}
@@ -89,6 +89,28 @@ export default function Header() {
                   <span
                     className={`absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-[14px] h-[3px] bg-[#749B3F] rounded-[10px] transition-opacity duration-200 ${
                       pathname === link.href ? "opacity-100" : "opacity-0"
+                    } group-hover:opacity-100`}
+                  />
+                </Link>
+              ))}
+            </nav> */}
+
+            <nav className='hidden md:flex items-center space-x-8'>
+              {menuItems.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className='relative group'
+                >
+                  <span className='font-questrial text-[14px] leading-[24px] tracking-[-0.02em] text-[#4A4A52]'>
+                    {link.label}
+                  </span>
+                  <span
+                    className={`absolute bottom-[-8px] left-1/2 transform -translate-x-1/2 w-[14px] h-[3px] bg-[#749B3F] rounded-[10px] transition-opacity duration-200 ${
+                      (link.href === "/" && pathname === "/") ||
+                      (link.href !== "/" && pathname.startsWith(link.href))
+                        ? "opacity-100"
+                        : "opacity-0"
                     } group-hover:opacity-100`}
                   />
                 </Link>

@@ -15,7 +15,7 @@ export async function POST(request) {
     });
 
     const data = await response.json();
-    console.log("Response from external API:", data);
+    // console.log("Response from external API:", data);
 
     const { accessToken, userData } = data?.data || {};
 

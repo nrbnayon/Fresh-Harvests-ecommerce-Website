@@ -97,17 +97,17 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
     try {
       let result;
       if (modalType === "login") {
-        logger.debug("Attempting login with email:", formData.email);
+        // logger.debug("Attempting login with email:", formData.email);
         result = await login(formData.email, formData.password);
       } else {
-        logger.debug("Attempting registration with data:", {
-          fullName: formData.fullName,
-          email: formData.email,
-        });
+        // logger.debug("Attempting registration with data:", {
+        //   fullName: formData.fullName,
+        //   email: formData.email,
+        // });
         result = await register(formData);
       }
 
-      logger.debug("Auth result:", result);
+      // logger.debug("Auth result:", result);
 
       if (result.success) {
         logger.info(
@@ -127,6 +127,7 @@ const AuthModal = ({ isOpen, onClose, type = "login" }) => {
             } successful!`
           );
           onClose();
+          window.location.reload();
         }
       } else {
         logger.warn(
