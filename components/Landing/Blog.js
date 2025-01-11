@@ -30,7 +30,7 @@ export default function Blog() {
     },
   ];
   return (
-    <section className='container mx-auto sm:px-6 lg:px-8 bg-white'>
+    <section className='container mx-auto sm:px-6 lg:px-8  bg-white'>
       <div className='relative max-w-[1200px] mx-auto'>
         <div className='text-center mb-12 mx-auto'>
           <div className='inline-block bg-green-100 rounded-md w-fit mb-4'>

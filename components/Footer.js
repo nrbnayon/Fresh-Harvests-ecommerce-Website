@@ -36,7 +36,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className='bg-[#F4F6F6] container px-4 mx-auto text-white py-12 font-rubik'>
+    <footer className='bg-[#F4F6F6] container px-4 mx-auto text-white py-12 mt-20 font-rubik'>
       <div className='max-w-[1200px] mx-auto'>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8'>
           {/* Company Info */}
