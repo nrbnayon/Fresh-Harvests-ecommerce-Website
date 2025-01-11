@@ -1,1 +1,1 @@
-export const protectedRoutes = ["/profile", "/settings", "/blog", "/cart"];
+export const protectedRoutes = ["/profile", "/settings", "/blogs", "/cart"];

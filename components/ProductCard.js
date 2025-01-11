@@ -32,7 +32,11 @@ export function ProductCard({ product, isActive, onAddToCart }) {
 
   return (
     <div className='block'>
-      <Link href={`/blog/${id}`} onClick={handleProductClick} className='block'>
+      <Link
+        href={`/blog/${id}`}
+        // onClick={handleProductClick}
+        className='block'
+      >
         <div className='bg-white max-w-[282px] rounded-3xl px-3 pt-3 pb-5 flex flex-col items-center shadow-lg transition-all duration-300 hover:border-gray-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-105'>
           <div className='w-full h-52 mb-4 relative bg-[#F4F6F6] rounded-2xl'>
             <Image
