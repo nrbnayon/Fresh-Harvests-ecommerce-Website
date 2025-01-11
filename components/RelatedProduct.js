@@ -28,7 +28,7 @@ export default function RelatedProduct({ relatedProducts }) {
               </span>
             </div>
             <h2 className='text-4xl font-semibold text-gray-900'>
-              Similar Products
+              Related products
             </h2>
             <p className='text-gray-600 max-w-md mx-auto'>
               We pride ourselves on offering a wide variety of fresh and

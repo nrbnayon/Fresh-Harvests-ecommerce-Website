@@ -82,7 +82,7 @@ export default function Offer() {
             </div>
 
             {/* Promo Code */}
-            <div className='bg-[#176D38] py-[6px] px-3 text-white text-xs md:text-sm rounded-[35px] flex justify-center items-center w-fit mx-auto mb-4'>
+            <div className='bg-[#176D38] py-[6px] px-3 text-white text-xs md:text-sm rounded-[35px] flex justify-center md:justify-start items-center w-fit mx-auto md:mx-0 mb-4'>
               CODE:{" "}
               <span className='text-[#FAC714] font-medium ml-2'>FRESH10</span>
             </div>

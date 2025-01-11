@@ -152,7 +152,7 @@ export default function Hero() {
               </button>
 
               {/* Special Offer Card */}
-              <div className='relative ml-[180px] max-w-[350px] bg-[#EBEBEB]'>
+              <div className='relative ml-[190px]  rounded-2xl max-w-[350px] bg-[#EBEBEB]'>
                 <div className='rounded-[12px] p-4 flex items-center gap-2'>
                   <div className='space-y-2'>
                     <p className='text-[#176D38] text-sm font-medium'>
@@ -196,7 +196,7 @@ export default function Hero() {
               <div className='absolute bottom-[500px] right-[650px]'>
                 <Image src={arrow} alt='bg' width={45} height={45} />
               </div>
-              <div className='absolute bottom-[420px] left-[241px]'>
+              <div className='absolute bottom-[400px] left-[241px]'>
                 <Image src={arrow2} alt='bg' width={55} height={38} />
               </div>
               <div className='absolute bottom-72 left-[78px]'>

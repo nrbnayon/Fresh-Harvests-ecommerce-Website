@@ -1,4 +1,5 @@
 import ProductDetailContent from "@/components/ProductDetailContent";
+import { ProductCardSkeleton } from "@/components/Skeleton/ProductCardSk";
 import { Suspense } from "react";
 
 async function ProductDetail({ params }) {
@@ -11,8 +12,12 @@ async function ProductDetail({ params }) {
         <div className='max-w-[1200px] mx-auto px-4 py-8'>
           <Suspense
             fallback={
-              <div className='flex items-center justify-center min-h-[50vh]'>
-                <div className='text-xl text-gray-600'>Loading...</div>
+              <div className='min-h-screen w-full bg-gray-50 py-12 md:py-20 flex flex-col items-center justify-center'>
+                <div className='text-xl md:text-2xl text-gray-700 mb-6'>
+                  Loading...
+                </div>
+
+                <ProductCardSkeleton />
               </div>
             }
           >

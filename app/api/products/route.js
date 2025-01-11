@@ -18,7 +18,7 @@ export async function GET(request) {
     }
 
     const data = await response.json();
-    console.log("product data", data);
+    // console.log("product data", data);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching categories:", error);

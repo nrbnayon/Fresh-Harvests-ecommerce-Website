@@ -13,7 +13,7 @@ export async function GET(request) {
     }
 
     const data = await response.json();
-    console.log("categories data", data);
+    // console.log("categories data", data);
     return NextResponse.json(data);
   } catch (error) {
     console.error("Error fetching categories:", error);
