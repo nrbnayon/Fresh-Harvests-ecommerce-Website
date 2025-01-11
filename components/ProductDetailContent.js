@@ -7,10 +7,14 @@ import { useDynamicTypesQuery } from "@/redux/features/auth/dynamicType/dynamicT
 import { addToCart } from "@/utils/cartUtils";
 import { toast } from "react-hot-toast";
 import RelatedProduct from "./RelatedProduct";
+import { Heart, Minus, Plus, Star } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
 
 const ProductDetailContent = ({ id }) => {
   const [quantity, setQuantity] = useState(1);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [activeTab, setActiveTab] = useState("description");
 
   const { data: productData } = useDynamicTypesQuery({
     dynamicApi: "products",
@@ -90,41 +94,60 @@ const ProductDetailContent = ({ id }) => {
             {product.productName}
           </h1>
           <div className='flex items-center gap-2'>
-            <div className='flex text-yellow-400'>{"★".repeat(5)}</div>
-            <span className='text-gray-600'>(5 review)</span>
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className='w-5 h-5 fill-yellow-400 text-yellow-400'
+              />
+            ))}
+            <span className='text-sm text-gray-600'>5.0 (1 review)</span>
           </div>
-          <p className='text-3xl font-bold text-primaryColor'>
-            ${product.price.toFixed(2)}/kg
-          </p>
+
+          <div className='text-2xl font-bold text-orange-500'>
+            ${product.price.toFixed(2)}
+            <span className='text-base font-normal'>/kg</span>
+          </div>
+
           <p className='text-gray-600'>{product.description}</p>
 
           {/* Quantity Selector */}
+
           <div className='flex items-center gap-4'>
-            <span className='text-gray-700'>Quantity</span>
-            <div className='flex items-center border rounded-md'>
-              <button
-                className='px-4 py-2 text-gray-600 hover:bg-gray-100'
+            <span className='font-medium'>Quantity</span>
+            <div className='flex items-center gap-2'>
+              <Button
+                variant='outline'
+                size='icon'
                 onClick={() => handleQuantityChange(-1)}
+                className='h-8 w-8'
               >
-                -
-              </button>
-              <span className='px-4 py-2'>{quantity}</span>
-              <button
-                className='px-4 py-2 text-gray-600 hover:bg-gray-100'
+                <Minus className='h-4 w-4' />
+              </Button>
+              <span className='w-12 text-center'>{quantity}</span>
+              <Button
+                variant='outline'
+                size='icon'
                 onClick={() => handleQuantityChange(1)}
+                className='h-8 w-8'
               >
-                +
-              </button>
+                <Plus className='h-4 w-4' />
+              </Button>
+              <span className='text-gray-600'>/kg</span>
             </div>
-            <span className='text-gray-500'>/kg</span>
           </div>
 
           {/* Action Buttons */}
           <div className='flex gap-4'>
             <Button
-              onClick={() => {}}
+              onClick={() => setIsFavorite(!isFavorite)}
+              variant='outline'
               className='flex-1 py-6 border-[#D9D9D9] bg-white hover:bg-gray-50 text-black'
             >
+              <Heart
+                className={`h-5 w-5 ${
+                  isFavorite ? "fill-red-500 text-red-500" : ""
+                }`}
+              />{" "}
               Save as favorite
             </Button>
             <Button
@@ -135,6 +158,47 @@ const ProductDetailContent = ({ id }) => {
             </Button>
           </div>
         </div>
+      </div>
+
+      {/* Tabs Section */}
+      <div className='bg-white rounded-lg w-full md:w-3/4 shadow-sm p-6 my-10'>
+        <Tabs defaultValue='description' className='w-full'>
+          <TabsList className='flex items-center gap-4'>
+            <TabsTrigger
+              value='description'
+              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[45px] bg-[#749B3F] border border-[#749B3F] text-white rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
+            >
+              Description
+            </TabsTrigger>
+            <TabsTrigger
+              value='reviews'
+              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[45px] bg-white border border-gray-300 text-gray-700 rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
+            >
+              Reviews (1)
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent value='description' className='mt-6'>
+            <div className='prose max-w-none'>
+              <p>
+                Our coconuts are sustainably grown, ensuring the best quality
+                and taste. Each coconut is handpicked and carefully prepared,
+                offering you the freshest product possible. Rich in healthy
+                fats, electrolytes, and essential nutrients, coconuts provide
+                both hydration and nourishment. Whether you are using the water,
+                flesh, or milk, our coconuts bring versatility to your kitchen
+                while supporting healthy living.
+              </p>
+              <p>
+                Perfect for smoothies, desserts, curries, and more — let the
+                natural sweetness of the coconut elevate your recipes. Enjoy the
+                tropical goodness in its purest form, directly from nature.
+              </p>
+            </div>
+          </TabsContent>
+          <TabsContent value='reviews'>
+            <div className='text-gray-600'>Reviews content coming soon...</div>
+          </TabsContent>
+        </Tabs>
       </div>
 
       <RelatedProduct relatedProducts={relatedProducts || []} />

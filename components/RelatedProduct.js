@@ -20,18 +20,19 @@ export default function RelatedProduct({ relatedProducts }) {
   return (
     <div>
       {relatedProducts.length > 0 && (
-        <div className='mt-20'>
+        <div className='mt-20 min-w-full'>
           <div className='text-center mb-12 space-y-4'>
             <div className='inline-block bg-[#749B3F19] rounded-md'>
               <span className='px-3 py-1 text-green-600 text-sm font-medium'>
-                Related Products
+                Related products
               </span>
             </div>
             <h2 className='text-4xl font-semibold text-gray-900'>
               Similar Products
             </h2>
-            <p className='text-gray-600 max-w-2xl mx-auto'>
-              You might also like these products from the same category
+            <p className='text-gray-600 max-w-md mx-auto'>
+              We pride ourselves on offering a wide variety of fresh and
+              flavorful fruits, vegetables, and salad ingredients.
             </p>
           </div>
 

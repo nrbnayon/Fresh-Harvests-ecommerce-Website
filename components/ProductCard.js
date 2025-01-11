@@ -42,13 +42,15 @@ export function ProductCard({ product, isActive, onAddToCart }) {
               className='object-contain'
             />
           </div>
-          <h3 className='text-xl font-semibold text-gray-900 mb-2'>
+          <h3 className='text-xl font-semibold text-gray-900 mb-2 text-center md:text-left'>
             {productName}
           </h3>
-          <p className='text-gray-600 mb-4'>${price.toFixed(2)}/kg</p>
+          <p className='text-gray-600 mb-4 text-center md:text-left'>
+            ${price.toFixed(2)}/kg
+          </p>
           <Button
             onClick={handleAddToCart}
-            className='w-full py-6 text-base font-medium border-[#D9D9D9] bg-white hover:bg-orange-600 text-black hover:text-white'
+            className='w-full py-4 text-base font-medium border-[#D9D9D9] bg-white hover:bg-orange-600 text-black hover:text-white'
           >
             Add to cart
           </Button>
