@@ -46,8 +46,8 @@ export default function Offer() {
       }}
     >
       <div className='max-w-[1200px] mx-auto py-16 lg:py-24 my-8'>
-        <div className='py-10 w-full lg:w-2/3'>
-          <div>
+        <div className='py-10 w-full text-center md:text-start lg:w-2/3 mx-auto'>
+          <div className='space-y-5'>
             <div className='inline-block bg-[#749B3F19] rounded-md w-fit'>
               <span className='px-3 py-1 rounded-full text-green-600 text-sm font-medium'>
                 Special Offer
@@ -63,7 +63,7 @@ export default function Offer() {
             </p>
 
             {/* Countdown Timer */}
-            <div className='flex flex-wrap gap-6 mb-6'>
+            <div className='flex justify-center md:justify-start md:flex-wrap gap-6 mb-6'>
               {["days", "hours", "minutes", "seconds"].map((unit, index) => (
                 <div
                   key={index}
@@ -82,13 +82,13 @@ export default function Offer() {
             </div>
 
             {/* Promo Code */}
-            <div className='bg-[#176D38] py-[6px] px-3 text-white text-xs md:text-sm rounded-[35px] flex items-center w-fit mb-4'>
+            <div className='bg-[#176D38] py-[6px] px-3 text-white text-xs md:text-sm rounded-[35px] flex justify-center items-center w-fit mx-auto mb-4'>
               CODE:{" "}
               <span className='text-[#FAC714] font-medium ml-2'>FRESH10</span>
             </div>
 
             {/* Shop Button */}
-            <button className='bg-orange-500 hidden text-white px-6 py-3 rounded-full hover:bg-orange-600 transition'>
+            <button className='bg-orange-500 hidden text-white px-6 py-3 rounded-full hover:bg-orange-600 transition mx-auto '>
               Shop Now
             </button>
           </div>
