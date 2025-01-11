@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import RelatedProduct from "./RelatedProduct";
 import { Heart, Minus, Plus, Star } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs";
+import Head from "next/head";
 
 const ProductDetailContent = ({ id }) => {
   const [quantity, setQuantity] = useState(1);
@@ -52,6 +53,37 @@ const ProductDetailContent = ({ id }) => {
 
   return (
     <>
+      {/* SEO Metadata */}
+      <Head>
+        <title>{product?.productName} | Fresh Harvests</title>
+        <meta
+          name='description'
+          content={`Buy ${
+            product.productName
+          } for just $${product?.price.toFixed(2)}. ${product?.description}`}
+        />
+        <meta
+          name='keywords'
+          content={`${product?.productName}, Organic Products, Fresh Harvests`}
+        />
+        <meta name='author' content='Fresh Harvests Team' />
+        <meta property='og:title' content={product.productName} />
+        <meta property='og:description' content={product.description} />
+        <meta property='og:image' content={product?.images[0]} />
+        <meta
+          property='og:url'
+          content={`https://freshtask.netlify.app/blog/${id}`}
+        />
+        <meta name='twitter:card' content='summary_large_image' />
+        <meta name='twitter:title' content={product?.productName} />
+        <meta name='twitter:description' content={product?.description} />
+        <meta name='twitter:image' content={product?.images[0]} />
+        <link
+          rel='canonical'
+          href={`https://freshtask.netlify.app/blog/${id}`}
+        />
+      </Head>
+
       {/* Product Section */}
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-12'>
         <div className='space-y-4'>
@@ -166,13 +198,13 @@ const ProductDetailContent = ({ id }) => {
           <TabsList className='flex items-center gap-4'>
             <TabsTrigger
               value='description'
-              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[45px] bg-[#749B3F] border border-[#749B3F] text-white rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
+              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[50px] bg-[#749B3F] border border-[#749B3F] text-white rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
             >
               Description
             </TabsTrigger>
             <TabsTrigger
               value='reviews'
-              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[45px] bg-white border border-gray-300 text-gray-700 rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
+              className='flex items-start justify-center px-6 py-3 gap-2 w-[141px] h-[50px] bg-white border border-gray-300 text-gray-700 rounded-lg data-[state=active]:bg-[#749B3F] data-[state=active]:border-[#749B3F] data-[state=active]:text-white'
             >
               Reviews (1)
             </TabsTrigger>

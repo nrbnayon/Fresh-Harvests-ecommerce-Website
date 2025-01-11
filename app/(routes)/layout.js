@@ -1,4 +1,4 @@
-export default function RootLayout({ children }) {
+export default function RouteLayout({ children }) {
   return (
     <section>
       <div>{children}</div>
